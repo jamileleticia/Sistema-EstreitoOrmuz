@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  monitor:
+    image: jamileleticia/sistema-estreitoormuz:latest
+    container_name: monitor_ormuz
+    network_mode: host
+    command: java MonitorFrota
+
+  broker:
+    image: jamileleticia/sistema-estreitoormuz:latest
+    network_mode: host
+    # Uso: ID e PORTA
+    command: java NoBroker ${ID:-1} ${PORT:-7001}
+    container_name: broker_${ID:-1}
+
+  drone:
+    image: jamileleticia/sistema-estreitoormuz:latest
+    network_mode: host
+    # Uso: ID e PORTA
+    command: java NoDrone ${ID:-1} ${PORT:-8001}
+    container_name: drone_${ID:-1}
+
+  sensor:
+    image: jamileleticia/sistema-estreitoormuz:latest
+    network_mode: host
+    # Uso: ID_SENSOR, ID_BROKER_ALVO, PORTA_BROKER_ALVO
+    command: java NoSensor ${ID:-101} ${BID:-1} ${BPORT:-7001}
+    container_name: sensor_${ID:-101}
